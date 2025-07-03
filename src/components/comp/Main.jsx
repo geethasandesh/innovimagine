@@ -36,13 +36,13 @@ const Main = () => {
           <div className="bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg">
             Failed to load 3D scene. Please refresh the page.
           </div>
-        </div>
+</div>
       )}
 
       <div className="absolute bottom-4 right-4 bg-black rounded-lg px-6 py-2 shadow-lg z-10">
         <p className="text-sm text-white font-medium">Innovimagine</p>
       </div>
-    </div>
+  </div>
   );
 };
 

@@ -33,7 +33,7 @@ const Faq = () => {
   return (
     <section className="bg-white py-16 min-h-[60vh] flex flex-col items-center justify-center">
       <div className="max-w-2xl w-full mx-auto">
-        <h2 className="text-4xl font-bold text-gray-900 mb-10 text-center">Frequently Asked Questions</h2>
+        <h2 className="text-4xl font-sans text-black mb-10 text-center">Frequently Asked Questions</h2>
         <div className="space-y-4">
           {faqData.map((item, idx) => (
             <div key={idx} className="border border-gray-200 rounded-xl bg-gray-50">
@@ -41,8 +41,8 @@ const Faq = () => {
                 className="w-full flex justify-between items-center px-6 py-5 text-left focus:outline-none"
                 onClick={() => toggle(idx)}
               >
-                <span className="text-lg font-semibold text-gray-900">{item.question}</span>
-                <span className="text-2xl text-blue-600 transition-transform duration-200" style={{ transform: openIndex === idx ? 'rotate(45deg)' : 'rotate(0deg)' }}>
+                <span className="text-lg font-sans text-gray-900">{item.question}</span>
+                <span className="text-2xl text-gray-600 transition-transform duration-200" style={{ transform: openIndex === idx ? 'rotate(45deg)' : 'rotate(0deg)' }}>
                   +
                 </span>
               </button>

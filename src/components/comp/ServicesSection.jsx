@@ -126,7 +126,7 @@ const ServicesSection = () => (
                   </h3>
                   <p className="text-gray-600 text-base md:text-lg leading-relaxed">{service.desc}</p>
                 </div>
-              </div>
+          </div>
             )}
           </motion.div>
         ))}
