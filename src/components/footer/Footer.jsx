@@ -4,7 +4,7 @@ import { FaLinkedin, FaInstagram, FaFacebook } from 'react-icons/fa'
 import { HiOutlineLocationMarker, HiOutlineMail, HiOutlinePhone } from 'react-icons/hi'
 
 const Footer = () => (
-  <footer className="bg-white border-t border-gray-200 mt-24">
+  <footer className="bg-white">
     <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
       {/* Logo, Description, Socials */}
       <div>

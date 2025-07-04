@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Mail, Phone, User } from 'lucide-react';
+import { Mail, Phone, User, Rocket } from 'lucide-react';
 import { motion } from 'framer-motion';
 import emailjs from 'emailjs-com';
 
@@ -15,7 +15,26 @@ function Contact() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [buttonHover, setButtonHover] = useState(false);
   const formRef = useRef();
+
+  const validate = () => {
+    const errors = {};
+    if (!formData.fullName.trim()) errors.fullName = 'Name is required.';
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required.';
+    } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(formData.email) || !formData.email.includes('.com')) {
+      errors.email = 'Enter a valid email address.';
+    }
+    if (!formData.number.trim()) {
+      errors.number = 'Phone number is required.';
+    } else if (!/^\d{10}$/.test(formData.number)) {
+      errors.number = 'Enter a valid 10-digit phone number.';
+    }
+    if (!formData.subject.trim()) errors.subject = 'Subject of interest is required.';
+    return errors;
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,13 +42,17 @@ function Contact() {
       ...prev,
       [name]: value
     }));
+    setFieldErrors(prev => ({ ...prev, [name]: undefined }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSending(true);
     setError(null);
     setSent(false);
+    const errors = validate();
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+    setSending(true);
     emailjs.sendForm(
       'service_vfws8rr',
       'template_z8wwy0w',
@@ -177,10 +200,10 @@ function Contact() {
             viewport={{ once: true, amount: 0.2 }}
             variants={fadeUp}
           >
-            <form ref={formRef} className="space-y-6 flex flex-col h-full justify-between" onSubmit={handleSubmit}>
+            <form ref={formRef} className="space-y-6 flex flex-col h-full justify-between" onSubmit={handleSubmit} noValidate>
               <div>
                 <label className="block text-gray-700 text-sm font-medium mb-2">
-                  Full Name
+                  Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -188,14 +211,15 @@ function Contact() {
                   value={formData.fullName}
                   onChange={handleInputChange}
                   placeholder="Geetha Sandesh"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-gray-100 shadow-neumorphic-inset"
+                  className={`w-full px-4 py-3 border ${fieldErrors.fullName ? 'border-red-400' : 'border-gray-200'} rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-gray-100 shadow-neumorphic-inset`}
                   required
                 />
+                {fieldErrors.fullName && <p className="text-red-500 text-xs mt-1">{fieldErrors.fullName}</p>}
               </div>
 
               <div>
                 <label className="block text-gray-700 text-sm font-medium mb-2">
-                  Email Address
+                  Email Address <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
@@ -203,14 +227,15 @@ function Contact() {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="example@gmail.com"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-gray-100 shadow-neumorphic-inset"
+                  className={`w-full px-4 py-3 border ${fieldErrors.email ? 'border-red-400' : 'border-gray-200'} rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-gray-100 shadow-neumorphic-inset`}
                   required
                 />
+                {fieldErrors.email && <p className="text-red-500 text-xs mt-1">{fieldErrors.email}</p>}
               </div>
 
               <div>
                 <label className="block text-gray-700 text-sm font-medium mb-2">
-                  Phone Number
+                  Phone Number <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -218,8 +243,12 @@ function Contact() {
                   value={formData.number}
                   onChange={handleInputChange}
                   placeholder="Enter your phone number"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-gray-100 shadow-neumorphic-inset"
+                  className={`w-full px-4 py-3 border ${fieldErrors.number ? 'border-red-400' : 'border-gray-200'} rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-gray-100 shadow-neumorphic-inset`}
+                  required
+                  maxLength={10}
+                  pattern="\d{10}"
                 />
+                {fieldErrors.number && <p className="text-red-500 text-xs mt-1">{fieldErrors.number}</p>}
               </div>
 
               <div>
@@ -238,7 +267,7 @@ function Contact() {
 
               <div>
                 <label className="block text-gray-700 text-sm font-medium mb-2">
-                  Subject Of Interest
+                  Subject Of Interest <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -246,8 +275,10 @@ function Contact() {
                   value={formData.subject}
                   onChange={handleInputChange}
                   placeholder="Regarding Project"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-gray-100 shadow-neumorphic-inset"
+                  className={`w-full px-4 py-3 border ${fieldErrors.subject ? 'border-red-400' : 'border-gray-200'} rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-gray-100 shadow-neumorphic-inset`}
+                  required
                 />
+                {fieldErrors.subject && <p className="text-red-500 text-xs mt-1">{fieldErrors.subject}</p>}
               </div>
 
               <div>
@@ -267,13 +298,23 @@ function Contact() {
 
               <motion.button
                 type="submit"
-                className="w-full bg-black text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200 shadow-neumorphic"
+                className="w-full bg-black text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200 shadow-neumorphic flex items-center justify-center gap-2 relative overflow-hidden"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 300 }}
                 disabled={sending}
+                onMouseEnter={() => setButtonHover(true)}
+                onMouseLeave={() => setButtonHover(false)}
               >
-                {sending ? 'Sending...' : 'Send Your Message'}
+                <span>Send Your Message</span>
+                <motion.span
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={buttonHover ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex items-center"
+                >
+                  <Rocket className="w-5 h-5 ml-2 text-white" />
+                </motion.span>
               </motion.button>
               {sent && <p className="text-green-600 mt-2">Message sent successfully!</p>}
               {error && <p className="text-red-600 mt-2">{error}</p>}

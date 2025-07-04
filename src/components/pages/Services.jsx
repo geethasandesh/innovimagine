@@ -1,135 +1,155 @@
-import React from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import WebAppDevelopment from './WebAppDevelopment';
+import MobileAppDevelopment from './MobileAppDevelopment';
+import FullStackDevelopment from './FullStackDevelopment';
+import AIToolApplications from './AIToolApplications';
+import UIDesign from './UIDesign';
+import DigitalMarketing from './DigitalMarketing';
+import SoftwareSupport from './SoftwareSupport';
+
+const TABS = [
+  {
+    label: 'Web App',
+    icon: (
+      <motion.svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24" whileHover={{ scale: 1.25, rotate: 8 }} transition={{ type: 'spring', stiffness: 300 }}><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></motion.svg>
+    ),
+    component: WebAppDevelopment,
+  },
+  {
+    label: 'Mobile',
+    icon: (
+      <motion.svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24" whileHover={{ scale: 1.25, rotate: -8 }} transition={{ type: 'spring', stiffness: 300 }}><rect x="7" y="2" width="10" height="20" rx="2"/><circle cx="12" cy="18" r="1"/></motion.svg>
+    ),
+    component: MobileAppDevelopment,
+  },
+  {
+    label: 'Full Stack',
+    icon: (
+      <motion.svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24" whileHover={{ scale: 1.25, y: -2 }} transition={{ type: 'spring', stiffness: 300 }}><rect x="3" y="4" width="18" height="4" rx="2"/><rect x="3" y="10" width="18" height="4" rx="2"/><rect x="3" y="16" width="18" height="4" rx="2"/></motion.svg>
+    ),
+    component: FullStackDevelopment,
+  },
+  {
+    label: 'AI Tools',
+    icon: (
+      <motion.svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24" whileHover={{ scale: 1.25, rotate: 12 }} transition={{ type: 'spring', stiffness: 300 }}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></motion.svg>
+    ),
+    component: AIToolApplications,
+  },
+  {
+    label: 'UI/UX',
+    icon: (
+      <motion.svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24" whileHover={{ scale: 1.25, y: -2 }} transition={{ type: 'spring', stiffness: 300 }}><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h10v10H7z"/></motion.svg>
+    ),
+    component: UIDesign,
+  },
+  {
+    label: 'Marketing',
+    icon: (
+      <motion.svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24" whileHover={{ scale: 1.25, rotate: -10 }} transition={{ type: 'spring', stiffness: 300 }}><path d="M3 12a9 9 0 0118 0M12 3v9l6 3"/></motion.svg>
+    ),
+    component: DigitalMarketing,
+  },
+  {
+    label: 'Support',
+    icon: (
+      <motion.svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24" whileHover={{ scale: 1.25, y: 2 }} transition={{ type: 'spring', stiffness: 300 }}><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></motion.svg>
+    ),
+    component: SoftwareSupport,
+  },
+];
+
+const headingVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+};
+
+const subtitleVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.15, ease: 'easeOut' } },
+};
 
 function Services() {
-  const services = [
-    {
-      icon: "🌐",
-      title: "Web Development",
-      description: "Custom websites and web applications built with modern technologies and best practices.",
-      features: ["Responsive Design", "SEO Optimization", "Performance Focused", "Modern Frameworks"]
-    },
-    {
-      icon: "📱",
-      title: "Mobile Development",
-      description: "Native and cross-platform mobile applications for iOS and Android platforms.",
-      features: ["Native iOS/Android", "Cross-platform", "App Store Optimization", "Push Notifications"]
-    },
-    {
-      icon: "🎨",
-      title: "UI/UX Design",
-      description: "User-centered design solutions that create engaging and intuitive user experiences.",
-      features: ["User Research", "Wireframing", "Prototyping", "Design Systems"]
-    },
-    {
-      icon: "☁️",
-      title: "Cloud Solutions",
-      description: "Scalable cloud infrastructure and deployment solutions for modern applications.",
-      features: ["AWS/Azure/GCP", "DevOps", "CI/CD", "Monitoring"]
-    },
-    {
-      icon: "🤖",
-      title: "AI Integration",
-      description: "Intelligent solutions powered by artificial intelligence and machine learning.",
-      features: ["Chatbots", "Data Analytics", "Predictive Models", "Automation"]
-    },
-    {
-      icon: "🔒",
-      title: "Cybersecurity",
-      description: "Comprehensive security solutions to protect your digital assets and data.",
-      features: ["Security Audits", "Penetration Testing", "Compliance", "Incident Response"]
+  const [selected, setSelected] = useState(0);
+  const tabRefs = useRef([]);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+
+  useLayoutEffect(() => {
+    if (tabRefs.current[selected]) {
+      const node = tabRefs.current[selected];
+      setIndicator({ left: node.offsetLeft, width: node.offsetWidth });
     }
-  ]
+  }, [selected]);
+
+  const SelectedComponent = TABS[selected].component;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-20">
-        <div className="absolute inset-0 dotted-border opacity-10"></div>
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center mb-16 animate-fade-in">
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 gradient-text">
-              Our Services
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Comprehensive digital solutions tailored to your business needs, from concept to deployment and beyond.
-            </p>
-          </div>
+    <div className="min-h-screen bg-gray-100 pt-28 pb-16 px-2 md:px-0">
+      {/* Heading */}
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.h1
+          className="text-4xl md:text-5xl font-sans text-center text-gray-900 mb-4 font-semibold"
+          variants={headingVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          Our Services
+        </motion.h1>
+        <motion.p
+          className="text-lg text-center text-gray-500 mb-12"
+          variants={subtitleVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          Explore our comprehensive digital solutions, crafted to elevate your business with modern technology and design.
+        </motion.p>
+      </div>
+      {/* Tab Bar */}
+      <div className="max-w-4xl mx-auto mb-10 px-2">
+        <div className="relative flex justify-center gap-1 md:gap-2 bg-transparent p-0">
+          {/* Animated Underline Indicator */}
+          <motion.div
+            className="absolute bottom-0 left-0 h-[2.5px] bg-gray-900 rounded-full z-0"
+            style={{
+              width: indicator.width ? indicator.width - 16 : 0,
+              left: indicator.left ? indicator.left + 8 : 0,
+            }}
+            layout
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+          />
+          {TABS.map((tab, idx) => (
+            <button
+              key={tab.label}
+              ref={el => (tabRefs.current[idx] = el)}
+              className={`relative z-10 flex flex-col items-center px-2 md:px-4 py-2 bg-transparent rounded-none font-sans font-medium text-xs md:text-sm transition-colors duration-200 focus:outline-none
+                ${selected === idx ? 'text-gray-900' : 'text-gray-400 hover:text-gray-900'}`}
+              onClick={() => setSelected(idx)}
+              style={{ WebkitTapHighlightColor: 'transparent', minWidth: 60 }}
+            >
+              <span className="mb-1">{React.cloneElement(tab.icon, { whileHover: { scale: 1.25, y: -2 }, transition: { type: 'spring', stiffness: 300 } })}</span>
+              <span className="leading-tight">{tab.label}</span>
+            </button>
+          ))}
         </div>
-      </section>
-
-      {/* Services Grid */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <div 
-                key={index} 
-                className="card-3d p-8 animate-slide-up group"
-                style={{animationDelay: `${index * 0.1}s`}}
-              >
-                <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {service.icon}
-                </div>
-                <h3 className="text-2xl font-bold mb-4 gradient-text">{service.title}</h3>
-                <p className="text-gray-300 mb-6 leading-relaxed">{service.description}</p>
-                <ul className="space-y-2">
-                  {service.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center text-gray-300">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <h2 className="text-5xl font-bold text-center mb-16 gradient-text">Our Process</h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { step: "01", title: "Discovery", desc: "Understanding your needs and objectives" },
-              { step: "02", title: "Planning", desc: "Creating detailed project roadmap and strategy" },
-              { step: "03", title: "Development", desc: "Building your solution with precision and care" },
-              { step: "04", title: "Launch", desc: "Deploying and maintaining your digital solution" }
-            ].map((process, index) => (
-              <div key={index} className="text-center animate-slide-up" style={{animationDelay: `${index * 0.2}s`}}>
-                <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold animate-glow">
-                  {process.step}
-                </div>
-                <h3 className="text-xl font-bold mb-2 gradient-text">{process.title}</h3>
-                <p className="text-gray-300">{process.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="card-3d p-12 text-center animate-fade-in">
-            <h2 className="text-4xl font-bold mb-6 gradient-text">Ready to Get Started?</h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Let's discuss how we can help transform your ideas into powerful digital solutions that drive results.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full font-semibold hover:scale-105 transition-transform duration-300 animate-glow">
-                Get Free Consultation
-              </button>
-              <button className="px-8 py-4 border border-blue-500 rounded-full font-semibold hover:bg-blue-500/10 transition-colors duration-300">
-                View Our Portfolio
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
+      {/* Tab Content */}
+      <div className="max-w-6xl mx-auto px-2 md:px-0">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selected}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="overflow-hidden"
+          >
+            <SelectedComponent />
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Services 
+export default Services; 

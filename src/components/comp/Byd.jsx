@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Byd = () => {
+  const navigate = useNavigate();
   return (
     <section className="relative min-h-[80vh] flex flex-col items-center justify-center bg-gray-100 overflow-hidden py-20">
       <div className="text-2xl md:text-3xl text-gray-500 max-w-3xl text-center mb-12 font-sans leading-relaxed">
@@ -13,6 +15,7 @@ const Byd = () => {
         <button
           className="px-10 py-3 bg-black text-white rounded-md font-sans text-lg hover:opacity-90 transition-all duration-200"
           style={{ boxShadow: '0 10px 25px rgba(0,0,0,0.7), 0 6px 20px rgba(0,0,0,0.5)' }}
+          onClick={() => navigate('/contact')}
         >
           Get Started
         </button>
