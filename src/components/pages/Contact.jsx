@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Mail, Phone, User } from 'lucide-react';
 import { motion } from 'framer-motion';
+import emailjs from 'emailjs-com';
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,10 @@ function Contact() {
     subject: '',
     message: ''
   });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState(null);
+  const formRef = useRef();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,8 +27,30 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Message sent successfully!');
+    setSending(true);
+    setError(null);
+    setSent(false);
+    emailjs.sendForm(
+      'service_vfws8rr',
+      'template_z8wwy0w',
+      formRef.current,
+      '7l18AEEBovnNx3Rnh'
+    )
+    .then(() => {
+      setSent(true);
+      setSending(false);
+      setFormData({
+        fullName: '',
+        email: '',
+        number: '',
+        country: '',
+        subject: '',
+        message: ''
+      });
+    }, () => {
+      setError('Failed to send. Please try again.');
+      setSending(false);
+    });
   };
 
   // Animation variants
@@ -150,7 +177,7 @@ function Contact() {
             viewport={{ once: true, amount: 0.2 }}
             variants={fadeUp}
           >
-            <form className="space-y-6 flex flex-col h-full justify-between" onSubmit={handleSubmit}>
+            <form ref={formRef} className="space-y-6 flex flex-col h-full justify-between" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-gray-700 text-sm font-medium mb-2">
                   Full Name
@@ -162,6 +189,7 @@ function Contact() {
                   onChange={handleInputChange}
                   placeholder="Geetha Sandesh"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-gray-100 shadow-neumorphic-inset"
+                  required
                 />
               </div>
 
@@ -176,6 +204,7 @@ function Contact() {
                   onChange={handleInputChange}
                   placeholder="example@gmail.com"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-gray-100 shadow-neumorphic-inset"
+                  required
                 />
               </div>
 
@@ -232,6 +261,7 @@ function Contact() {
                   rows={4}
                   placeholder="Give us more info.."
                   className="w-full max-w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all resize-y bg-gray-100 shadow-neumorphic-inset"
+                  required
                 />
               </div>
 
@@ -241,9 +271,12 @@ function Contact() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 300 }}
+                disabled={sending}
               >
-                Send Your Message
+                {sending ? 'Sending...' : 'Send Your Message'}
               </motion.button>
+              {sent && <p className="text-green-600 mt-2">Message sent successfully!</p>}
+              {error && <p className="text-red-600 mt-2">{error}</p>}
             </form>
           </motion.div>
         </div>
