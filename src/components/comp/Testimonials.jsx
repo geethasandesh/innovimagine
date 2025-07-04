@@ -25,9 +25,9 @@ const testimonials = [
 ]
 
 const stats = [
-  { number: "150+", label: "AI Projects Delivered" },
-  { number: "98%", label: "Client Satisfaction Rate" },
-  { number: "5+", label: "Years of Innovation" }
+  { number: "15+", label: " Projects Delivered" },
+  { number: "100%", label: "Client Satisfaction Rate" },
+  { number: "2+", label: "Years of Innovation" }
 ]
 
 const StarRating = ({ rating, isAnimated = false }) => (
