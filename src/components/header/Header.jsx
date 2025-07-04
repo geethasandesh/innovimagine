@@ -8,6 +8,7 @@ function Header() {
   const navItems = [
     { path: "/", label: "Home" },
     { path: "/services", label: "Services" },
+    { path: "/join-us", label: "Join Us" },
     { path: "/contact", label: "Contact" },
   ];
 

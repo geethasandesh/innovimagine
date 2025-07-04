@@ -10,12 +10,14 @@ import AIToolApplications from '../pages/AIToolApplications'
 import UIDesign from '../pages/UIDesign'
 import DigitalMarketing from '../pages/DigitalMarketing'
 import SoftwareSupport from '../pages/SoftwareSupport'
+import JoinUs from '../pages/JoinUs'
 
 function Routers() {
   return (
     <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/services" element={<Services/>}/>
+        <Route path="/join-us" element={<JoinUs/>}/>
         <Route path="/contact" element={<Contact/>}/>
         <Route path="/services/web-app-development" element={<WebAppDevelopment/>}/>
         <Route path="/services/mobile-app-development" element={<MobileAppDevelopment/>}/>
