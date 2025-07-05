@@ -1,99 +1,291 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaLinkedin, FaInstagram, FaFacebook } from 'react-icons/fa'
 import { HiOutlineLocationMarker, HiOutlineMail, HiOutlinePhone } from 'react-icons/hi'
-import { motion } from 'framer-motion'
 
-const Footer = () => (
-  <footer className="bg-white">
-    <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-5 gap-4">
-      {/* Logo, Description, Socials */}
-      <div>
-        <div className="mb-4">
-          <span className="block text-lg font-bold tracking-widest mb-2">INNOVIMAGINE</span>
+const Footer = () => {
+  const [email, setEmail] = useState('')
+  const [isSubscribed, setIsSubscribed] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault()
+    if (!email) return
+
+    setIsLoading(true)
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubscribed(true)
+      setIsLoading(false)
+      setEmail('')
+    }, 1000)
+  }
+
+  return (
+    <footer className="bg-white">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+          {/* Logo, Description, Socials */}
+          <div className="lg:col-span-2">
+            <div className="mb-4">
+              <span className="block text-lg font-bold tracking-widest mb-2">INNOVIMAGINE</span>
+            </div>
+            <p className="text-gray-700 mb-6 text-base">Transforming digital landscapes with innovative technology solutions and cutting-edge design.</p>
+            <div className="flex space-x-4 text-2xl text-gray-700">
+              <a
+                href="https://www.linkedin.com/in/innov-imagine-582915350/"
+                aria-label="LinkedIn"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-600 transition-all duration-300 hover:scale-110 hover:rotate-3"
+              >
+                <FaLinkedin />
+              </a>
+              <a
+                href="https://www.instagram.com/accounts/login/?next=%2Finnovimagine%2F&source=omni_redirect"
+                aria-label="Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-pink-600 transition-all duration-300 hover:scale-110 hover:rotate-3"
+              >
+                <FaInstagram />
+              </a>
+              <a
+                href="https://www.facebook.com/profile.php?id=61572732074218&mibextid=qi2Omg&rdid=WW2L7v3ytUejb5A0&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18dGf6b7YL%2F%3Fmibextid%3Dqi2Omg#"
+                aria-label="Facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-800 transition-all duration-300 hover:scale-110 hover:rotate-3"
+              >
+                <FaFacebook />
+              </a>
+            </div>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h3 className="text-lg font-semibold font-sans mb-4">Services</h3>
+            <ul className="space-y-3 text-gray-800">
+              <li>
+                <Link 
+                  to="/services" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  All Services
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/services/web-app-development" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  Web App Development
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/services/mobile-app-development" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  App Development
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/services/full-stack-development" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium whitespace-nowrap"
+                >
+                  Full Stack Development
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Services col 2 */}
+          <div>
+            <ul className="space-y-3 text-gray-800">
+            <li>
+                <Link 
+                  to="/services/ai-tool-applications" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/services/ai-tool-applications" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  AI Tool Applications
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/services/ui-ux-design" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  UI/UX Design
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/services/digital-marketing" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  Digital Marketing
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/services/software-support" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  Software Support
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Pages */}
+          <div>
+            <h3 className="text-lg font-semibold font-sans mb-4">Pages</h3>
+            <ul className="space-y-3 text-gray-800">
+              <li>
+                <Link 
+                  to="/" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  Home
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/services" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  Services
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/about" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  About
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/contact" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  Contact
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-lg font-semibold font-sans mb-4">Contact Info</h3>
+            <ul className="space-y-4 text-gray-800">
+              <li className="flex items-center gap-3">
+                <span aria-label="Location" title="Location">
+                  <HiOutlineLocationMarker className="text-lg" />
+                </span>
+                <span>Hyderabad, India</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <span aria-label="Email" title="Email">
+                  <HiOutlineMail className="text-lg" />
+                </span>
+                <a 
+                  href="mailto:innovimagine@gmail.com" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  innovimagine@gmail.com
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <span aria-label="Phone" title="Phone">
+                  <HiOutlinePhone className="text-lg" />
+                </span>
+                <a 
+                  href="tel:+917569460743" 
+                  className="relative inline-block group transition-all duration-300 hover:text-black hover:font-medium"
+                >
+                  +91 7569460743
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Newsletter */}
+          <div className="lg:col-span-2">
+            <h3 className="text-lg font-semibold font-sans mb-4">Newsletter</h3>
+            <p className="text-gray-700 mb-4 text-sm">Stay updated with our latest innovations and insights.</p>
+            {isSubscribed ? (
+              <div className="bg-green-50 border border-green-200 rounded-md p-3">
+                <p className="text-green-800 text-sm font-medium">✓ Successfully subscribed! Thank you.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleNewsletterSubmit} className="space-y-3">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Your email address"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    required
+                  />
+                  <button 
+                    type="submit"
+                    disabled={isLoading}
+                    className={`px-6 py-2 rounded-md transition-all duration-300 font-medium ${
+                      isLoading 
+                        ? 'bg-gray-400 cursor-not-allowed' 
+                        : 'bg-black text-white hover:bg-gray-800 hover:scale-105'
+                    }`}
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Subscribing...</span>
+                      </div>
+                    ) : (
+                      'Subscribe'
+                    )}
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500">We respect your privacy. Unsubscribe at any time.</p>
+              </form>
+            )}
+          </div>
         </div>
-        <p className="text-gray-700 mb-6 text-base">Transforming digital landscapes with innovative technology solutions and cutting-edge design.</p>
-        <div className="flex space-x-4 text-2xl text-gray-700">
-          <motion.a
-            href="https://www.linkedin.com/in/innov-imagine-582915350/"
-            aria-label="LinkedIn"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.2, rotate: -8 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <FaLinkedin />
-          </motion.a>
-          <motion.a
-            href="https://www.instagram.com/accounts/login/?next=%2Finnovimagine%2F&source=omni_redirect"
-            aria-label="Instagram"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.2, rotate: 8 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <FaInstagram />
-          </motion.a>
-          <motion.a
-            href="https://www.facebook.com/profile.php?id=61572732074218&mibextid=qi2Omg&rdid=WW2L7v3ytUejb5A0&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18dGf6b7YL%2F%3Fmibextid%3Dqi2Omg#"
-            aria-label="Facebook"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.2, rotate: 6 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <FaFacebook />
-          </motion.a>
-        </div>
       </div>
-      {/* Services col 1 */}
-      <div>
-        <h3 className="text-xl font-semibold  font-sans mb-4">Services</h3>
-        <ul className="space-y-3 text-gray-800">
-          <li><Link to="/services">All Services</Link></li>
-          <li><Link to="/services/web-app-development">Web App Development</Link></li>
-          <li><Link to="/services/mobile-app-development">Mobile App Development</Link></li>
-          <li><Link to="/services/full-stack-development">Full Stack Development</Link></li>
-        </ul>
+      <div className="border-t border-gray-100 py-6 text-center text-gray-400 text-sm">
+        © {new Date().getFullYear()} InnovImagine. All rights reserved.
       </div>
-      {/* Services col 2 */}
-      <div className="pt-10 md:pt-0">
-        <ul className="space-y-3 text-gray-800">
-        <li><Link to="/">.</Link></li>
-          <li><Link to="/services/ai-tool-applications">AI Tool Applications</Link></li>
-          <li><Link to="/services/ui-ux-design">UI/UX Design</Link></li>
-          <li><Link to="/services/digital-marketing">Digital Marketing</Link></li>
-          <li><Link to="/services/software-support">Software Support</Link></li>
-        </ul>
-      </div>
-      {/* Pages */}
-      <div>
-        <h3 className="text-xl font-semibold font-sans mb-4">Pages</h3>
-        <ul className="space-y-3 text-gray-800">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/services">Services</Link></li>
-          <li><Link to="/join-us">Join Us</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
-        </ul>
-      </div>
-      {/* Contact Info */}
-      <div>
-        <h3 className="text-xl font-semibold font-sans mb-4">Contact Info</h3>
-        <ul className="space-y-4 text-gray-800">
-          <li className="flex items-center gap-3"><HiOutlineLocationMarker className="text-lg" /> Hyderabad, India</li>
-          <li className="flex items-center gap-3"><HiOutlineMail className="text-lg" />
-            <a href="mailto:innovimagine@gmail.com" className="hover:underline">innovimagine@gmail.com</a>
-          </li>
-          <li className="flex items-center gap-3"><HiOutlinePhone className="text-lg" />
-            <a href="tel:+917569460743" className="hover:underline">+91 7569460743</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div className="border-t border-gray-100 py-6 text-center text-gray-400 text-sm">
-      © {new Date().getFullYear()} InnovImagine. All rights reserved.
-    </div>
-  </footer>
-)
+    </footer>
+  )
+}
 
 export default Footer

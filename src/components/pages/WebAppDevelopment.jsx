@@ -144,9 +144,18 @@ const WebAppDevelopment = () => (
       >
         <a
           href="/contact"
-          className="inline-block bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition font-sans shadow-lg"
+          className="inline-block bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition font-sans shadow-lg group"
         >
-          Get Started with Web App Development
+          <span className="flex items-center gap-2">
+            Get Started with Web App Development
+            <svg 
+              className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0" 
+              fill="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </span>
         </a>
       </motion.div>
     </div>

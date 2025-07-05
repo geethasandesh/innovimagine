@@ -298,23 +298,28 @@ function Contact() {
 
               <motion.button
                 type="submit"
-                className="w-full bg-black text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200 shadow-neumorphic flex items-center justify-center gap-2 relative overflow-hidden"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: 'spring', stiffness: 300 }}
                 disabled={sending}
+                className={`relative w-full py-4 px-8 rounded-2xl font-semibold text-lg transition-all duration-300 shadow-neumorphic-hover ${
+                  sending 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-black text-white hover:bg-gray-800 hover:scale-105'
+                }`}
+                whileHover={!sending ? { scale: 1.02, y: -2 } : {}}
+                whileTap={!sending ? { scale: 0.98 } : {}}
                 onMouseEnter={() => setButtonHover(true)}
                 onMouseLeave={() => setButtonHover(false)}
               >
-                <span>Send Your Message</span>
-                <motion.span
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={buttonHover ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex items-center"
-                >
-                  <Rocket className="w-5 h-5 ml-2 text-white" />
-                </motion.span>
+                {sending ? (
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Sending...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center gap-3">
+                    <Rocket className="w-5 h-5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
+                    <span>Send Message</span>
+                  </div>
+                )}
               </motion.button>
               {sent && <p className="text-green-600 mt-2">Message sent successfully!</p>}
               {error && <p className="text-red-600 mt-2">{error}</p>}

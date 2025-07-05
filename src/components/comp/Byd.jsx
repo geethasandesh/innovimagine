@@ -13,17 +13,30 @@ const Byd = () => {
       
       <div className="flex flex-col sm:flex-row gap-6 justify-center">
         <button
-          className="px-10 py-3 bg-black text-white rounded-md font-sans text-lg hover:opacity-90 transition-all duration-200"
+          className="px-10 py-3 bg-black text-white rounded-md font-sans text-lg transition-all duration-300 group relative overflow-hidden hover:scale-105 hover:shadow-2xl"
           style={{ boxShadow: '0 10px 25px rgba(0,0,0,0.7), 0 6px 20px rgba(0,0,0,0.5)' }}
           onClick={() => navigate('/contact')}
         >
-          Get Started
+          <span className="flex items-center gap-2 relative z-10">
+            Get Started
+            <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+              🚀
+            </span>
+          </span>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
         </button>
         <button
-          className="px-10 py-3 bg-white text-black rounded-md font-sans text-lg hover:opacity-90 transition-all duration-200"
+          className="px-10 py-3 bg-white text-black rounded-md font-sans text-lg transition-all duration-300 group relative overflow-hidden hover:scale-105 hover:shadow-2xl hover:bg-gray-50"
           style={{ boxShadow: '0 10px 25px rgba(0,0,0,0.3), 0 6px 20px rgba(0,0,0,0.2)' }}
+          onClick={() => navigate('/services')}
         >
-          Our Services
+          <span className="flex items-center gap-2 relative z-10">
+            Our Services
+            <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+              ⚙️
+            </span>
+          </span>
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
         </button>
       </div>
     </section>

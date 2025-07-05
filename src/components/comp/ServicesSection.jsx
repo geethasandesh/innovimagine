@@ -151,10 +151,20 @@ const ServicesSection = () => {
       </div>
       <div className="flex justify-center mt-12">
         <button
-          className="px-10 py-3 bg-white text-black rounded-md font-sans text-lg hover:opacity-90 transition-all duration-200"
+          className="px-10 py-3 bg-white text-black rounded-md font-sans text-lg hover:opacity-90 transition-all duration-200 group"
           style={{ boxShadow: '0 10px 25px rgba(0,0,0,0.3), 0 6px 20px rgba(0,0,0,0.2)' }}
+          onClick={() => navigate('/services')}
         >
-          Our Services
+          <span className="flex items-center gap-2">
+            Our Services
+            <svg 
+              className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0" 
+              fill="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+          </span>
         </button>
       </div>
     </div>

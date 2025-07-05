@@ -82,6 +82,45 @@ const technologies = [
   'Database', 'UI/UX', 'DevOps', 'Analytics', 'Automation', 'Blockchain'
 ];
 
+const comparisonData = [
+  {
+    feature: 'Team Experience',
+    innovimagine: 'Team with 3+ years experience',
+    others: 'Generic teams, unknown background',
+    advantage: 'Personal connection, shared vision'
+  },
+  {
+    feature: 'Ethical Approach',
+    innovimagine: 'Ethics-first development',
+    others: 'Profit-driven, questionable practices',
+    advantage: 'Trustworthy, sustainable solutions'
+  },
+  {
+    feature: 'Innovation Focus',
+    innovimagine: 'AI-powered, cutting-edge solutions',
+    others: 'Traditional, outdated methods',
+    advantage: 'Future-ready technology'
+  },
+  {
+    feature: 'Client Relationship',
+    innovimagine: 'Direct founder communication',
+    others: 'Multiple layers, delayed responses',
+    advantage: 'Faster decision-making, personal touch'
+  },
+  {
+    feature: 'Pricing',
+    innovimagine: 'Startup-friendly, transparent pricing',
+    others: 'Hidden costs, enterprise pricing',
+    advantage: 'Better value for money'
+  },
+  {
+    feature: 'Support',
+    innovimagine: '24/7 direct support',
+    others: 'Limited hours, ticket system',
+    advantage: 'Immediate assistance when needed'
+  }
+];
+
 const Features = () => {
   const carouselRef = useRef(null);
   const [carouselWidth, setCarouselWidth] = useState(0);
@@ -126,7 +165,7 @@ const Features = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: idx * 0.2 }}
               viewport={{ once: true }}
-              className="bg-white rounded-3xl p-8 flex flex-col items-center text-center shadow-neumorphic"
+              className="bg-white rounded-3xl p-8 flex flex-col items-center text-center shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 hover:scale-105"
             >
               {feature.icon}
               <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
@@ -134,6 +173,62 @@ const Features = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Why Choose Us Comparison Section */}
+        <motion.div
+          className="mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <h3 className="text-2xl font-bold text-center text-gray-900 mb-4">Why Choose Us Over Others?</h3>
+          <div className="bg-white rounded-2xl shadow-neumorphic overflow-hidden">
+            {/* Header */}
+            <div className="bg-gray-900 text-white p-3 lg:p-4">
+              <h4 className="text-lg font-semibold">What Sets Us Apart</h4>
+              <p className="text-gray-300 text-xs">Transparent comparison of our approach vs traditional agencies</p>
+            </div>
+            
+            {/* Comparison Rows */}
+            {comparisonData.map((item, idx) => (
+              <motion.div
+                key={idx}
+                className="border-b border-gray-200 last:border-b-0 hover:bg-gray-50 transition-colors duration-200"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+              >
+                <div className="p-3 lg:p-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                    <div>
+                      <h5 className="font-semibold text-gray-900 text-sm">{item.feature}</h5>
+                    </div>
+                    <div className="lg:col-span-2">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="bg-gray-50 p-2 rounded">
+                          <h6 className="font-medium text-gray-900 text-xs">Innovimagine</h6>
+                          <p className="text-gray-700 text-xs mt-1">{item.innovimagine}</p>
+                        </div>
+                        <div className="bg-gray-100 p-2 rounded">
+                          <h6 className="font-medium text-gray-900 text-xs">Others</h6>
+                          <p className="text-gray-600 text-xs mt-1">{item.others}</p>
+                        </div>
+                      </div>
+                      <div className="mt-2 p-2 bg-green-50 border-l-2 border-green-500 rounded-r">
+                        <p className="text-green-800 font-medium text-xs">
+                          <span className="font-bold">✓</span> {item.advantage}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Technologies Section */}
         <div className="mt-16 relative">
           <h3 className="text-2xl font-semibold text-center text-gray-900 mb-8">Our Technologies</h3>
@@ -152,7 +247,7 @@ const Features = () => {
                 {[...technologies, ...technologies].map((tech, idx) => (
                   <div
                     key={idx}
-                    className="flex-shrink-0 bg-white rounded-full px-6 py-3 shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 cursor-pointer"
+                    className="flex-shrink-0 bg-white rounded-full px-6 py-3 shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 cursor-pointer hover:scale-105"
                   >
                     <span className="text-gray-700 font-medium whitespace-nowrap">{tech}</span>
                   </div>
